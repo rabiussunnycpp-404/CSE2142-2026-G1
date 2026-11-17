@@ -15,8 +15,8 @@ public class EmployeeManager {
         if (args[0].equals(Constants.LIST_EMPLOYEES)) {
             System.out.println("Loading data ...");
             try {
-                String employeeData = loadEmployeeData(Constants.EMPLOYEE_FILE);
-                String[] employees = employeeData.split(Constants.EMPLOYEE_DELIMITER);
+                String[] employees = loadEmployeeData(Constants.EMPLOYEE_FILE)
+                        .split(Constants.EMPLOYEE_DELIMITER);
                 for (String employee : employees) {
                     System.out.println(employee);
                 }
@@ -25,15 +25,17 @@ public class EmployeeManager {
             System.out.println("Data Loaded.");
         } else if (args[0].equals(Constants.RANDOM_EMPLOYEE)) {
             System.out.println("Loading data ...");
+
             try {
-                String employeeData = loadEmployeeData(Constants.EMPLOYEE_FILE);
-                System.out.println(employeeData);
-                String employees[] = employeeData.split(Constants.EMPLOYEE_DELIMITER);
-                Random random = new Random();
-                int randomIndex = random.nextInt(employees.length);
-                System.out.println(employees[randomIndex]);
+                String[] employees = loadEmployeeData(Constants.EMPLOYEE_FILE)
+                        .split(Constants.EMPLOYEE_DELIMITER);
+
+                System.out.println(
+                        employees[new Random().nextInt(employees.length)]);
+
             } catch (Exception employees) {
             }
+
             System.out.println("Data Loaded.");
         } else if (args[0].contains(Constants.ADD_EMPLOYEE)) {
             System.out.println("Loading data ...");
@@ -50,8 +52,8 @@ public class EmployeeManager {
         } else if (args[0].contains(Constants.FIND_EMPLOYEE)) {
             System.out.println("Loading data ...");
             try {
-                String employeeData = loadEmployeeData(Constants.EMPLOYEE_FILE);
-                String employees[] = employeeData.split(Constants.EMPLOYEE_DELIMITER);
+                String[] employees = loadEmployeeData(Constants.EMPLOYEE_FILE)
+                        .split(Constants.EMPLOYEE_DELIMITER);
                 boolean found = false;
                 String searchTerm = args[0].substring(1);
                 for (int employeeIndex = 0; employeeIndex < employees.length && !found; employeeIndex++) {
@@ -66,8 +68,7 @@ public class EmployeeManager {
         } else if (args[0].equals(Constants.COUNT_EMPLOYEES)) {
             System.out.println("Loading data ...");
             try {
-                String employeeData = loadEmployeeData(Constants.EMPLOYEE_FILE);
-                char[] characters = employeeData.toCharArray();
+                char[] characters = loadEmployeeData(Constants.EMPLOYEE_FILE).toCharArray();
                 boolean inWord = false;
                 int employeeCount = 0;
                 for (char character : characters) {
@@ -87,8 +88,8 @@ public class EmployeeManager {
         } else if (args[0].contains(Constants.UPDATE_EMPLOYEE)) {
             System.out.println("Loading data ...");
             try {
-                String employeeData = loadEmployeeData(Constants.EMPLOYEE_FILE);
-                String employees[] = employeeData.split(Constants.EMPLOYEE_DELIMITER);
+                String[] employees = loadEmployeeData(Constants.EMPLOYEE_FILE)
+                        .split(Constants.EMPLOYEE_DELIMITER);
                 String employeeName = args[0].substring(1);
                 for (int employeeIndex = 0; employeeIndex < employees.length; employeeIndex++) {
                     if (employees[employeeIndex].equals(employeeName)) {
@@ -106,20 +107,27 @@ public class EmployeeManager {
             System.out.println("Data Updated.");
         } else if (args[0].contains(Constants.DELETE_EMPLOYEE)) {
             System.out.println("Loading data ...");
+
             try {
-                String employeeData = loadEmployeeData(Constants.EMPLOYEE_FILE);
-                String employees[] = employeeData.split(Constants.EMPLOYEE_DELIMITER);
                 String employeeName = args[0].substring(1);
-                List<String> employeeList = new ArrayList<>(Arrays.asList(employees));
+
+                List<String> employeeList = new ArrayList<>(
+                        Arrays.asList(
+                                loadEmployeeData(Constants.EMPLOYEE_FILE)
+                                        .split(Constants.EMPLOYEE_DELIMITER)));
+
                 employeeList.remove(employeeName);
+
                 saveEmployeeData(
                         String.join(
                                 Constants.EMPLOYEE_DELIMITER,
-                                employees),
+                                employeeList),
                         Constants.EMPLOYEE_FILE,
                         false);
+
             } catch (Exception exception) {
             }
+
             System.out.println("Data Deleted.");
         }
     }
