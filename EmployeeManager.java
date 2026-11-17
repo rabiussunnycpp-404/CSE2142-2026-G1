@@ -6,6 +6,12 @@ import java.util.*;
 public class EmployeeManager {
     public static void main(String[] args) {
         // Check arguments
+        if (args == null || args.length != 1) {
+            System.out.println(
+                    "Usage: java EmployeeManager (l | s | c | +NAME | ?NAME | uNAME | dNAME)");
+            return;
+        }
+
         if (args[0].equals("l")) {
             System.out.println("Loading data ...");
             try {
