@@ -143,6 +143,13 @@ public class EmployeeManager {
 
             System.out.println("Data Deleted.");
         }
+
+        else {
+            System.out.println("Invalid argument: " + args[0]);
+
+            System.out.println(
+                    "Usage: java EmployeeManager (-l | -s | -c | +NAME | ?NAME | uNAME | dNAME)");
+        }
     }
 
     static String loadEmployeeData(String fileName)
