@@ -51,19 +51,38 @@ public class EmployeeManager {
             System.out.println("Data Loaded.");
         } else if (args[0].contains(Constants.FIND_EMPLOYEE)) {
             System.out.println("Loading data ...");
+
             try {
                 String[] employees = loadEmployeeData(Constants.EMPLOYEE_FILE)
                         .split(Constants.EMPLOYEE_DELIMITER);
-                boolean found = false;
+
                 String searchTerm = args[0].substring(1);
-                for (int employeeIndex = 0; employeeIndex < employees.length && !found; employeeIndex++) {
-                    if (employees[employeeIndex].equals(searchTerm)) {
-                        System.out.println("Employee found!");
-                        found = true;
+
+                int indexLocation = -1;
+
+                for (int employeeIndex = 0; employeeIndex < employees.length; employeeIndex++) {
+
+                    if (employees[employeeIndex].trim()
+                            .equals(searchTerm.trim())) {
+
+                        indexLocation = employeeIndex;
+                        break;
                     }
                 }
+
+                if (indexLocation >= 0) {
+                    System.out.println(
+                            "Employee '" + searchTerm
+                                    + "' found at index " + indexLocation);
+                } else {
+                    System.out.println(
+                            "Employee '" + searchTerm
+                                    + "' does not exist");
+                }
+
             } catch (Exception exception) {
             }
+
             System.out.println("Data Loaded.");
         } else if (args[0].equals(Constants.COUNT_EMPLOYEES)) {
             System.out.println("Loading data ...");
