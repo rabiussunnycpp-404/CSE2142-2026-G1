@@ -5,17 +5,17 @@ import java.util.*;
 
 public class EmployeeManager {
     public static void main(String[] args) {
-        // Check arguments
+        // Validate the command-line arguments.
         if (args == null || args.length != 1) {
             System.out.println(
-                    "Usage: java EmployeeManager (employeeData | searchTerm | character | +NAME | ?NAME | uNAME | dNAME)");
+                    "Usage: java EmployeeManager (employeeListData | searchTerm | character | +NAME | ?NAME | uNAME | dNAME)");
             return;
         }
-
+        // Display all employees.
         if (args[0].equals(Constants.LIST_EMPLOYEES)) {
             System.out.println("Loading data ...");
             try {
-                String[] employees = loadEmployeeData(Constants.EMPLOYEE_FILE)
+                String[] employees = loadEmployees(Constants.EMPLOYEE_FILE)
                         .split(Constants.EMPLOYEE_DELIMITER);
                 for (String employee : employees) {
                     System.out.println(employee);
@@ -23,11 +23,13 @@ public class EmployeeManager {
             } catch (Exception employees) {
             }
             System.out.println("Data Loaded.");
+
+            // Display a randomly selected employee.
         } else if (args[0].equals(Constants.RANDOM_EMPLOYEE)) {
             System.out.println("Loading data ...");
 
             try {
-                String[] employees = loadEmployeeData(Constants.EMPLOYEE_FILE)
+                String[] employees = loadEmployees(Constants.EMPLOYEE_FILE)
                         .split(Constants.EMPLOYEE_DELIMITER);
 
                 System.out.println(
@@ -37,23 +39,25 @@ public class EmployeeManager {
             }
 
             System.out.println("Data Loaded.");
+            // Add a new employee to the file.
         } else if (args[0].contains(Constants.ADD_EMPLOYEE)) {
             System.out.println("Loading data ...");
             try {
-                String employeeName = args[0].substring(1);
+                String newEmployeeName = args[0].substring(1);
 
-                saveEmployeeData(
-                        ", " + employeeName,
+                saveEmployees(
+                        ", " + newEmployeeName,
                         Constants.EMPLOYEE_FILE,
                         true);
             } catch (Exception employees) {
             }
             System.out.println("Data Loaded.");
+            // Search for an employee by name
         } else if (args[0].contains(Constants.FIND_EMPLOYEE)) {
             System.out.println("Loading data ...");
 
             try {
-                String[] employees = loadEmployeeData(Constants.EMPLOYEE_FILE)
+                String[] employees = loadEmployees(Constants.EMPLOYEE_FILE)
                         .split(Constants.EMPLOYEE_DELIMITER);
 
                 String searchTerm = args[0].substring(1);
@@ -84,11 +88,13 @@ public class EmployeeManager {
             }
 
             System.out.println("Data Loaded.");
+
+            // Display the total number of employees.
         } else if (args[0].equals(Constants.COUNT_EMPLOYEES)) {
             System.out.println("Loading data ...");
 
             try {
-                String[] employees = loadEmployeeData(Constants.EMPLOYEE_FILE)
+                String[] employees = loadEmployees(Constants.EMPLOYEE_FILE)
                         .split(Constants.EMPLOYEE_DELIMITER);
 
                 System.out.println(
@@ -98,18 +104,19 @@ public class EmployeeManager {
             }
 
             System.out.println("Data Loaded.");
+            // Update an existing employee.
         } else if (args[0].contains(Constants.UPDATE_EMPLOYEE)) {
             System.out.println("Loading data ...");
             try {
-                String[] employees = loadEmployeeData(Constants.EMPLOYEE_FILE)
+                String[] employees = loadEmployees(Constants.EMPLOYEE_FILE)
                         .split(Constants.EMPLOYEE_DELIMITER);
-                String employeeName = args[0].substring(1);
+                String newEmployeeName = args[0].substring(1);
                 for (int employeeIndex = 0; employeeIndex < employees.length; employeeIndex++) {
-                    if (employees[employeeIndex].equals(employeeName)) {
+                    if (employees[employeeIndex].equals(newEmployeeName)) {
                         employees[employeeIndex] = "Updated";
                     }
                 }
-                saveEmployeeData(
+                saveEmployees(
                         String.join(
                                 Constants.EMPLOYEE_DELIMITER,
                                 employees),
@@ -118,20 +125,21 @@ public class EmployeeManager {
             } catch (Exception exception) {
             }
             System.out.println("Data Updated.");
+            // Delete an employee from the file.
         } else if (args[0].contains(Constants.DELETE_EMPLOYEE)) {
             System.out.println("Loading data ...");
 
             try {
-                String employeeName = args[0].substring(1);
+                String newEmployeeName = args[0].substring(1);
 
                 List<String> employeeList = new ArrayList<>(
                         Arrays.asList(
-                                loadEmployeeData(Constants.EMPLOYEE_FILE)
+                                loadEmployees(Constants.EMPLOYEE_FILE)
                                         .split(Constants.EMPLOYEE_DELIMITER)));
 
-                employeeList.remove(employeeName);
+                employeeList.remove(newEmployeeName);
 
-                saveEmployeeData(
+                saveEmployees(
                         String.join(
                                 Constants.EMPLOYEE_DELIMITER,
                                 employeeList),
@@ -143,7 +151,7 @@ public class EmployeeManager {
 
             System.out.println("Data Deleted.");
         }
-
+        // Handle unrecognized commands.
         else {
             System.out.println("Invalid argument: " + args[0]);
 
@@ -152,7 +160,7 @@ public class EmployeeManager {
         }
     }
 
-    static String loadEmployeeData(String fileName)
+    static String loadEmployees(String fileName)
             throws IOException {
 
         try (BufferedReader reader = new BufferedReader(
@@ -162,7 +170,7 @@ public class EmployeeManager {
         }
     }
 
-    static void saveEmployeeData(
+    static void saveEmployees(
             String content, String fileName, boolean append)
             throws IOException {
 
